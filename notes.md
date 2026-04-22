@@ -6,3 +6,5 @@ Found out that chromosome 2 is over 200 million bases long which is imtimidating
 Found 2 possible websites to download a database of several chromosome 2 code:
 https://ftp-trace.ncbi.nih.gov/1000genomes/ftp/
 https://hgdownload.soe.ucsc.edu/gbdb/hg38/1000Genomes/?utm_source=chatgpt.com
+
+Tried downloading the chromosome 2 files from the websites above but they were too large. Might have to reconsider this idea later on. Might just use a more revised version of the code simulator that I have in the src folder already.
