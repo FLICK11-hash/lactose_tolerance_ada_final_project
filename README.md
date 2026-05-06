@@ -25,9 +25,11 @@ Write up the main findings, especially focusing on how well lactose intolerance 
 Record a final video demonstrating the pipeline, explaining the code, and discussing the scientific and ethical tradeoffs of predicting lactose intolerance from genetic data.
 
 HOW TO RUN: 
+
 python src/generate_data.py
 python src/exploratory_analysis.py
 python src/train_models.py
 python src/feature_importance.py
 python src/confusion_matrix.py
+
 Then you are able to view everything in the \plots dir and everything other significant detail will just be printed in the terminal.
