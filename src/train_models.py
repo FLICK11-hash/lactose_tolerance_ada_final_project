@@ -1,7 +1,7 @@
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.dummy import DummyClassifier
@@ -11,63 +11,83 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 
-df = pd.read_csv("data/simulated_lactose_data.csv")     # Loads data
+df = pd.read_csv("data/simulated_lactose_data.csv")
 
-X = df.drop(columns=["lactose_intolerant"])     # genotype, age, dairy intake, symptoms
-y = df["lactose_intolerant"]        # whether someone is lactose intolerant
+target = "lactose_intolerant"
 
-categorical_features = ["rs4988235_genotype"]      # Identifies categorical and numeric features
-numeric_features = ["age", "dairy_intake_per_week", "family_history", "symptoms_score"]
+feature_sets = {
+    "Without symptoms_score": [
+        "rs4988235_genotype",
+        "age",
+        "dairy_intake_per_week",
+        "family_history",
+    ],
+    "With symptoms_score": [
+        "rs4988235_genotype",
+        "age",
+        "dairy_intake_per_week",
+        "family_history",
+        "symptoms_score",
+    ],
+}
 
-preprocessor = ColumnTransformer(
-    transformers=[
-        ("cat", OneHotEncoder(drop="first"), categorical_features),     #Since models cannot directly understand "CC", "CT", and "TT", this converts the genotype text into numbers
-        ("num", "passthrough", numeric_features),
-    ]
-)
-
-models = {                              # The dummy model is the baseline. The others are real ML models discussed about recently in our course!
+models = {
     "Dummy Classifier": DummyClassifier(strategy="most_frequent"),
     "Logistic Regression": LogisticRegression(max_iter=1000),
     "Decision Tree": DecisionTreeClassifier(random_state=42),
     "Random Forest": RandomForestClassifier(random_state=42),
 }
 
-X_train, X_test, y_train, y_test = train_test_split(            #80% of the data trains the model. 20% tests how well the model performs on new data. This is a train-test split
-    X,
-    y,
-    test_size=0.2,
-    random_state=42,
-    stratify=y
-)
+all_results = []
 
-results = []
+for feature_set_name, features in feature_sets.items():
+    X = df[features]
+    y = df[target]
 
-for name, model in models.items():
-    pipeline = Pipeline(
-        steps=[
-            ("preprocessor", preprocessor),
-            ("model", model),
+    categorical_features = ["rs4988235_genotype"]
+    numeric_features = [col for col in features if col != "rs4988235_genotype"]
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("cat", OneHotEncoder(drop="first"), categorical_features),
+            ("num", StandardScaler(), numeric_features),
         ]
     )
 
-    pipeline.fit(X_train, y_train)
-    y_pred = pipeline.predict(X_test)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y,
+        test_size=0.2,
+        random_state=42,
+        stratify=y,
+    )
 
-    results.append({
-        "model": name,
-        "accuracy": accuracy_score(y_test, y_pred),
-        "precision": precision_score(y_test, y_pred),
-        "recall": recall_score(y_test, y_pred),
-        "f1": f1_score(y_test, y_pred),
-    })
+    for model_name, model in models.items():
+        pipeline = Pipeline(
+            steps=[
+                ("preprocessor", preprocessor),
+                ("model", model),
+            ]
+        )
 
-results_df = pd.DataFrame(results)
+        pipeline.fit(X_train, y_train)
+        y_pred = pipeline.predict(X_test)
 
-print()
-print("Model comparison:")
+        all_results.append(
+            {
+                "feature_set": feature_set_name,
+                "model": model_name,
+                "accuracy": accuracy_score(y_test, y_pred),
+                "precision": precision_score(y_test, y_pred, zero_division=0),
+                "recall": recall_score(y_test, y_pred, zero_division=0),
+                "f1": f1_score(y_test, y_pred, zero_division=0),
+            }
+        )
+
+results_df = pd.DataFrame(all_results)
+
+print("\nModel comparison:")
 print(results_df)
 
-results_df.to_csv("data/model_results.csv", index=False)        # This creates a CSV showing which model performed best.
-print()
-print("Saved model results to data/model_results.csv")
+results_df.to_csv("data/model_results.csv", index=False)
+print("\nSaved model results to data/model_results.csv")
