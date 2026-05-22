@@ -1,9 +1,15 @@
 
-Predicting Genetic Trait from Simulated Prompt: 
+# Predicting Lactose Intolerance from Simulated Genetic and Symptom Data (Changed a bit for Final checkpoint)
 
-I would like to build a machine learning project that uses genetic features to predict the probability of lactose intolerance. 
-My goal is to explore how predictive modeling works in genetics while also analyzing the limitations, risks, and tradeoffs of drawing conclusions from biological data. 
-I would like to use either a public genetics-related dataset or a carefully designed simulated one, and compare multiple models to see how well they predict lactose intolerance. 
+This project builds a machine learning pipeline that uses simulated genetic, demographic, family history, dairy intake, and symptom-based features to predict lactose intolerance status.
+The goal is not to create a medical diagnostic tool. Instead, the project studies how genetic and symptom-based features can be used in a predictive model, 
+how different models compare, and what limitations exist when using simplified biological data for prediction.
+The dataset is simulated because public individual-level genetics datasets related to lactose intolerance can be limited, complex, or difficult to use responsibly. 
+The simulated data includes features such as rs4988235 genotype, age, dairy intake per week, family history, and symptom score.
+The project compares several models, including a majority-class baseline, Logistic Regression, Decision Tree, and Random Forest. 
+Model performance is evaluated using accuracy, precision, recall, and F1-score. The project also analyzes feature importance to understand which variables contribute most to prediction.
+A key limitation is that the model may rely heavily on symptom score, which is closely related to the target label. This means the model may be learning symptom patterns more than purely genetic risk. 
+The project also discusses ethical concerns, including population bias, incomplete biological information, and the danger of treating a simplified model as a medical diagnosis.
 
 Execution Plan By Week 5 Homework Deadline:
 Identify one or more public genetics-related datasets, or design a simulated dataset if the public data is too limited or too complex. 
