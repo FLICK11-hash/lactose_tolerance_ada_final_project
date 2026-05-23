@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-def generate_lactose_data(n=1000, seed=42):     # This creates 1000 fake people by default. seed=42 makes the random data repeatable every time you run it so we don't lose this information/people/data.
+def generate_lactose_data(n=1000, seed=18):     # This creates 1000 fake people by default. seed=42 makes the random data repeatable every time you run it so we don't lose this information/people/data.
     np.random.seed(seed)
 
     genotype = np.random.choice(        
@@ -41,7 +41,11 @@ def generate_lactose_data(n=1000, seed=42):     # This creates 1000 fake people 
 
     # Add small effects from age and family history
     risk += (age > 50) * 0.05
-    risk += family_history * 0.10
+    # Family history is modeled as a moderate additional risk factor.
+    # It represents having a parent or sibling with lactose intolerance.
+    # Since rs4988235 genotype is already included, this effect is kept moderate
+    # to avoid double-counting inherited genetic risk.
+    risk += family_history * 0.15   # This is a synthetic proxy for parentand sibling history, not a real European percentage.
     risk = np.clip(risk, 0, 1)      # Risk must stay between 0 and 1 because it represents probability.
 
     lactose_intolerant = np.random.binomial(1, risk)        # This decides whether each person is lactose intolerant. 1 = lactose intolerant, 0 = not lactose intolerant

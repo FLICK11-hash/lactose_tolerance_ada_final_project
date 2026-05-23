@@ -1,90 +1,66 @@
-(.venv) PS C:\Users\conra\lactose_tolerance_ada_final_project> python src/generate_data.py
->> python src/exploratory_analysis.py
->> python src/train_models.py
->> python src/feature_importance.py
->> python src/confusion_matrix.py
->> ls data
->> ls plots
+
+
 Saved simulated dataset to data/simulated_lactose_data.csv
   rs4988235_genotype  age  dairy_intake_per_week  family_history  symptoms_score  lactose_intolerant
-0                 CC   64                  11.04               0            7.42                   1
-1                 TT   29                   9.12               1            3.87                   0
-2                 CT   79                   8.42               1            1.48                   0
-3                 CT   33                   7.75               0            6.98                   1
-4                 CC   41                   4.98               0            5.78                   1
+0                 CT   65                   0.00               1            2.59                   0
+1                 CT   78                   9.20               1            7.80                   1
+2                 TT   37                   8.74               0            4.02                   0
+3                 CC   31                  15.87               0            8.94                   1
+4                 TT   59                  11.03               0            4.75                   0
 
 Class distribution:
 lactose_intolerant
-1    0.516
-0    0.484
+1    0.507
+0    0.493
 Name: proportion, dtype: float64
   rs4988235_genotype  age  dairy_intake_per_week  family_history  symptoms_score  lactose_intolerant
-0                 CC   64                  11.04               0            7.42                   1
-1                 TT   29                   9.12               1            3.87                   0
-2                 CT   79                   8.42               1            1.48                   0
-3                 CT   33                   7.75               0            6.98                   1
-4                 CC   41                   4.98               0            5.78                   1
+0                 CT   65                   0.00               1            2.59                   0
+1                 CT   78                   9.20               1            7.80                   1
+2                 TT   37                   8.74               0            4.02                   0
+3                 CC   31                  15.87               0            8.94                   1
+4                 TT   59                  11.03               0            4.75                   0
 
                age  dairy_intake_per_week  family_history  symptoms_score  lactose_intolerant
 count  1000.000000            1000.000000     1000.000000     1000.000000         1000.000000
-mean     48.381000               8.137500        0.459000        5.033600            0.516000
-std      17.817612               3.836105        0.498566        2.353795            0.499994
+mean     48.935000               8.121190        0.432000        5.242130            0.507000
+std      17.890636               3.994266        0.495602        2.380542            0.500201
 min      18.000000               0.000000        0.000000        0.000000            0.000000
-25%      32.000000               5.475000        0.000000        3.027500            0.000000
-50%      48.000000               8.050000        0.000000        4.900000            1.000000
-75%      64.000000              10.657500        1.000000        7.012500            1.000000
-max      79.000000              20.770000        1.000000       10.000000            1.000000
+25%      33.000000               5.417500        0.000000        3.290000            0.000000
+50%      49.000000               8.165000        0.000000        5.065000            1.000000
+75%      65.000000              10.755000        1.000000        7.192500            1.000000
+max      79.000000              20.660000        1.000000       10.000000            1.000000
 
 EDA plots saved to plots/
 
 Lactose intolerance rate by genotype:
 rs4988235_genotype
-CC    0.843818
-CT    0.272021
-TT    0.143791
+CC    0.822368
+CT    0.282116
+TT    0.136054
 Name: lactose_intolerant, dtype: float64
 
 Model comparison:
-                 model  accuracy  precision    recall        f1
-0     Dummy Classifier     0.515   0.515000  1.000000  0.679868
-1  Logistic Regression     0.955   0.951923  0.961165  0.956522
-2        Decision Tree     0.930   0.923810  0.941748  0.932692
-3        Random Forest     0.955   0.951923  0.961165  0.956522
+              feature_set                model  accuracy  precision    recall        f1
+0  Without symptoms_score     Dummy Classifier     0.505   0.505000  1.000000  0.671096
+1  Without symptoms_score  Logistic Regression     0.795   0.826087  0.752475  0.787565
+2  Without symptoms_score        Decision Tree     0.650   0.663158  0.623762  0.642857
+3  Without symptoms_score        Random Forest     0.755   0.770833  0.732673  0.751269
+4     With symptoms_score     Dummy Classifier     0.505   0.505000  1.000000  0.671096
+5     With symptoms_score  Logistic Regression     0.940   0.940594  0.940594  0.940594
+6     With symptoms_score        Decision Tree     0.900   0.917526  0.881188  0.898990
+7     With symptoms_score        Random Forest     0.925   0.938776  0.910891  0.924623
 
 Saved model results to data/model_results.csv
 
 Feature importance:
                       feature  importance
-5         num__symptoms_score    0.681978
-0  cat__rs4988235_genotype_CT    0.098484
-3  num__dairy_intake_per_week    0.076235
-1  cat__rs4988235_genotype_TT    0.069919
-2                    num__age    0.060464
-4         num__family_history    0.012920
+5         num__symptoms_score    0.722326
+0  cat__rs4988235_genotype_CT    0.090009
+3  num__dairy_intake_per_week    0.064327
+1  cat__rs4988235_genotype_TT    0.058053
+2                    num__age    0.050294
+4         num__family_history    0.014991
 
 Saved feature importance table to data/feature_importance.csv
 Saved feature importance plot to plots/feature_importance.png
 Saved confusion matrix to plots/confusion_matrix.png
-
-
-    Directory: C:\Users\conra\lactose_tolerance_ada_final_project\data
-
-
-Mode                 LastWriteTime         Length Name                                                                       
-----                 -------------         ------ ----                                                                       
--a----          5/6/2026   1:10 PM            273 feature_importance.csv                                                     
--a----          5/6/2026   1:10 PM            327 model_results.csv                                                          
--a----          5/6/2026   1:10 PM          21198 simulated_lactose_data.csv                                                 
-
-
-    Directory: C:\Users\conra\lactose_tolerance_ada_final_project\plots
-
-
-Mode                 LastWriteTime         Length Name                                                                       
-----                 -------------         ------ ----                                                                       
--a----          5/6/2026   1:10 PM          12673 class_distribution.png                                                     
--a----          5/6/2026   1:10 PM          19623 confusion_matrix.png                                                       
--a----          5/6/2026   1:10 PM          26523 feature_importance.png                                                     
--a----          5/6/2026   1:10 PM          11086 genotype_distribution.png                                                  
--a----          5/6/2026   1:10 PM          16667 intolerance_rate_by_genotype.png                                           
--a----          5/6/2026   1:10 PM          17351 symptoms_by_genotype.png

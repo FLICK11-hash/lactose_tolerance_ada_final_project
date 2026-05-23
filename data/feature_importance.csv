@@ -1,7 +1,7 @@
 feature,importance
-num__symptoms_score,0.68197809501833
-cat__rs4988235_genotype_CT,0.09848423031790374
-num__dairy_intake_per_week,0.07623459231361102
-cat__rs4988235_genotype_TT,0.0699193501380157
-num__age,0.060463681838934545
-num__family_history,0.01292005037320515
+num__symptoms_score,0.7223256397624036
+cat__rs4988235_genotype_CT,0.09000920191318551
+num__dairy_intake_per_week,0.064326716104964
+cat__rs4988235_genotype_TT,0.058053133126104633
+num__age,0.05029446881845177
+num__family_history,0.014990840274890492
