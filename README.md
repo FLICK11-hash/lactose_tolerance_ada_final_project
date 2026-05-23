@@ -1,11 +1,18 @@
 
-# Predicting Lactose Intolerance from Simulated Genetic and Symptom Data (Changed a bit for Final checkpoint)
+# Predicting Lactose Intolerance from Simulated Genetic and Symptom Data
 
 This project builds a machine learning pipeline that uses simulated genetic, demographic, family history, dairy intake, and symptom-based features to predict lactose intolerance status.
 The goal is not to create a medical diagnostic tool. Instead, the project studies how genetic and symptom-based features can be used in a predictive model, 
 how different models compare, and what limitations exist when using simplified biological data for prediction.
 The dataset is simulated because public individual-level genetics datasets related to lactose intolerance can be limited, complex, or difficult to use responsibly. 
 The simulated data includes features such as rs4988235 genotype, age, dairy intake per week, family history, and symptom score.
+The `symptoms_score` variable is a structured self-reported symptom severity score from 0 to 10 after dairy intake. 
+A score of 0 represents no noticeable symptoms, while a score of 10 represents severe symptoms. 
+In this project, the score is meant to summarize common lactose intolerance symptoms such as bloating, gas, stomach pain, diarrhea, and nausea. 
+Due to this score is self-reported and closely related to the target label, it is treated carefully in the model comparison.
+This dataset does not contain real patient records. It is a simulated dataset created using simplified assumptions about genotype, age, family history, dairy intake, symptom severity, 
+and lactose intolerance status. Therefore, the results should not be interpreted as medical proof or as evidence that the model would perform the same way on real people. 
+Instead, the purpose of the dataset is to test a machine learning pipeline under controlled assumptions based on research and study how different feature choices affect prediction.
 The project compares several models, including a majority-class baseline, Logistic Regression, Decision Tree, and Random Forest. 
 Model performance is evaluated using accuracy, precision, recall, and F1-score. The project also analyzes feature importance to understand which variables contribute most to prediction.
 A key limitation is that the model may rely heavily on symptom score, which is closely related to the target label. 

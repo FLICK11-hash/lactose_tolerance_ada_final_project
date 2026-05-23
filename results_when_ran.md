@@ -1,5 +1,3 @@
-
-
 Saved simulated dataset to data/simulated_lactose_data.csv
   rs4988235_genotype  age  dairy_intake_per_week  family_history  symptoms_score  lactose_intolerant
 0                 CT   65                   0.00               1            2.59                   0
