@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-def generate_lactose_data(n=1000, seed=18):     # This creates 1000 fake people by default. seed=42 makes the random data repeatable every time you run it so we don't lose this information/people/data.
+def generate_lactose_data(n=1000, seed=45):     # This creates 1000 fake people by default. seed=42 makes the random data repeatable every time you run it so we don't lose this information/people/data.
     np.random.seed(seed)
 
     genotype = np.random.choice(        
@@ -50,12 +50,22 @@ def generate_lactose_data(n=1000, seed=18):     # This creates 1000 fake people 
 
     lactose_intolerant = np.random.binomial(1, risk)        # This decides whether each person is lactose intolerant. 1 = lactose intolerant, 0 = not lactose intolerant
 
-    symptoms_score = (          # This gives higher symptoms to lactose-intolerant people and lower symptoms to non-intolerant people.
+    # Symptoms are only strongly visible when a person actually consumes enough dairy.
+    # If someone rarely eats dairy, they may have a low symptom score even if they are lactose intolerant.
+    base_symptoms_score = (
         lactose_intolerant * np.random.normal(7, 1.5, size=n)
         + (1 - lactose_intolerant) * np.random.normal(3, 1.2, size=n)
     )
 
-    symptoms_score += (dairy_intake > 10) * 0.75        # More dairy intake can make symptoms more noticeable, but it does not cause intolerance.
+    # Exposure factor: 0 servings/week means symptoms are mostly hidden,
+    # 8 or more servings/week means symptoms can fully appear.
+    exposure_factor = np.clip(dairy_intake / 8, 0, 1)
+
+    symptoms_score = base_symptoms_score * exposure_factor
+
+    # Higher dairy intake can make symptoms more noticeable, but it does not cause intolerance.
+    symptoms_score += (dairy_intake > 10) * 0.75
+
     symptoms_score = np.clip(symptoms_score, 0, 10)
 
     df = pd.DataFrame({

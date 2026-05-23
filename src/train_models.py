@@ -34,8 +34,8 @@ feature_sets = {
 models = {
     "Dummy Classifier": DummyClassifier(strategy="most_frequent"),
     "Logistic Regression": LogisticRegression(max_iter=1000),
-    "Decision Tree": DecisionTreeClassifier(random_state=42),
-    "Random Forest": RandomForestClassifier(random_state=42),
+    "Decision Tree": DecisionTreeClassifier(random_state=17),
+    "Random Forest": RandomForestClassifier(random_state=17),
 }
 
 all_results = []
@@ -58,7 +58,7 @@ for feature_set_name, features in feature_sets.items():
         X,
         y,
         test_size=0.2,
-        random_state=42,
+        random_state=17,
         stratify=y,
     )
 

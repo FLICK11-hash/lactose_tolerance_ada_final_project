@@ -8,10 +8,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import ConfusionMatrixDisplay
 
-# Quick summary of this py file :
 # This script evaluates the Logistic Regression model visually by showing how many 
 # test examples it classified correctly and incorrectly.
-
 
 df = pd.read_csv("data/simulated_lactose_data.csv")     # Loads the data
 
