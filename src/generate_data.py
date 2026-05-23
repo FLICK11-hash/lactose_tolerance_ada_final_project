@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-def generate_lactose_data(n=1000, seed=42):     #This creates 1000 fake people by default. seed=42 makes the random data repeatable every time you run it so we don't lose this information/people/data.
+def generate_lactose_data(n=1000, seed=42):     # This creates 1000 fake people by default. seed=42 makes the random data repeatable every time you run it so we don't lose this information/people/data.
     np.random.seed(seed)
 
     genotype = np.random.choice(        
@@ -14,6 +14,7 @@ def generate_lactose_data(n=1000, seed=42):     #This creates 1000 fake people b
         p=[0.45, 0.40, 0.15]        # 45% of people become CC, 40% become CT, 15% become TT
         # These genotype probabilities are simplified simulation assumptions.
         # They are not meant to exactly match one real population.
+        # Simplified synthetic assumption, roughly plausible for some European/mixed-European samples, but not representative of all populations - Used a study from Pub Med to determine this statistic (https://pubmed.ncbi.nlm.nih.gov/27577176/)
         # CC is treated as most common here so the dataset has enough lactose-intolerant cases to model.
         # "CC": high risk
         # "CT": low risk
@@ -25,7 +26,7 @@ def generate_lactose_data(n=1000, seed=42):     #This creates 1000 fake people b
     dairy_intake = np.random.normal(loc=8, scale=4, size=n)     # Creates a realistic spread of dairy intake per week.
     dairy_intake = np.clip(dairy_intake, 0, 25)                 # clip prevents impossible values like negative dairy intake
 
-    family_history = np.random.choice([0, 1], size=n, p=[0.55, 0.45])   # Randomly assigns whether someone has family history. 0 means none, 1 means faily history
+    family_history = np.random.choice([0, 1], size=n, p=[0.55, 0.45])   # Randomly assigns whether someone has family history. 0 means none, 1 means family history through parent or sibling
 
     # Risk is highest for CC, lower for CT, lowest for TT
     # For rs4988235, the T allele is treated as protective/dominant for lactase persistence.
@@ -38,11 +39,9 @@ def generate_lactose_data(n=1000, seed=42):     #This creates 1000 fake people b
 
     risk = np.array([genotype_risk[g] for g in genotype])
 
-    # Add small effects from age, dairy intake, and family history
+    # Add small effects from age and family history
     risk += (age > 50) * 0.05
-    risk += (dairy_intake > 10) * 0.05
     risk += family_history * 0.10
-
     risk = np.clip(risk, 0, 1)      # Risk must stay between 0 and 1 because it represents probability.
 
     lactose_intolerant = np.random.binomial(1, risk)        # This decides whether each person is lactose intolerant. 1 = lactose intolerant, 0 = not lactose intolerant
@@ -51,7 +50,9 @@ def generate_lactose_data(n=1000, seed=42):     #This creates 1000 fake people b
         lactose_intolerant * np.random.normal(7, 1.5, size=n)
         + (1 - lactose_intolerant) * np.random.normal(3, 1.2, size=n)
     )
-    symptoms_score = np.clip(symptoms_score, 0, 10)         # Keeps symptoms between 0 and 10.
+
+    symptoms_score += (dairy_intake > 10) * 0.75        # More dairy intake can make symptoms more noticeable, but it does not cause intolerance.
+    symptoms_score = np.clip(symptoms_score, 0, 10)
 
     df = pd.DataFrame({
         "rs4988235_genotype": genotype,

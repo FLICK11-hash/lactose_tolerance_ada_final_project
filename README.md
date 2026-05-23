@@ -8,7 +8,8 @@ The dataset is simulated because public individual-level genetics datasets relat
 The simulated data includes features such as rs4988235 genotype, age, dairy intake per week, family history, and symptom score.
 The project compares several models, including a majority-class baseline, Logistic Regression, Decision Tree, and Random Forest. 
 Model performance is evaluated using accuracy, precision, recall, and F1-score. The project also analyzes feature importance to understand which variables contribute most to prediction.
-A key limitation is that the model may rely heavily on symptom score, which is closely related to the target label. This means the model may be learning symptom patterns more than purely genetic risk. 
+A key limitation is that the model may rely heavily on symptom score, which is closely related to the target label. 
+This means the model may be learning symptom patterns more than purely genetic risk. 
 The project also discusses ethical concerns, including population bias, incomplete biological information, and the danger of treating a simplified model as a medical diagnosis.
 
 Execution Plan By Week 5 Homework Deadline:
